@@ -1,6 +1,12 @@
 import express from 'express';
 import path from 'path';
 import { ENV } from './lib/env.js';
+import cors from "cors";
+
+app.use(cors({
+  origin: "*"
+}));
+
 
 const app = express();
 
