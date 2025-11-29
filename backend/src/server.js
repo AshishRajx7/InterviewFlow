@@ -1,28 +1,25 @@
-import express from 'express';
-import path from 'path';
-import { ENV } from './lib/env.js';
-import cors from "cors";
+import express from 'express'
+import cors from 'cors'
+import { ENV } from './lib/env.js'
 
+const app = express()
+
+// CORS must come after app is created
 app.use(cors({
   origin: "*"
-}));
-
-
-const app = express();
+}))
 
 app.get('/health', (req, res) => {
-  res.status(200).json({ msg: "api is running" });
-});
+  res.status(200).json({ msg: "api is running" })
+})
 
 app.get('/books', (req, res) => {
-  res.status(200).json({ msg: "this is books endpoint" });
-});
+  res.status(200).json({ msg: "this is books endpoint" })
+})
 
-// IMPORTANT
-// Remove serving frontend because Render backend DOES NOT contain frontend/dist
-// Your frontend will be deployed separately on Vercel
-// So no static file serving here
+// No frontend serving. Vercel handles frontend.
+// Backend only serves API.
 
 app.listen(ENV.PORT, () => {
-  console.log(`Server started on port ${ENV.PORT} in ${ENV.NODE_ENV} mode`);
-});
+  console.log(`Server started on port ${ENV.PORT} in ${ENV.NODE_ENV} mode`)
+})
