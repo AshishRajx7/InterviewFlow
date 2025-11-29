@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { ENV } from './lib/env.js'
+import { connect } from 'mongoose'
+import { connectDB } from './lib/db.js'
 
 const app = express()
 
@@ -20,6 +22,13 @@ app.get('/books', (req, res) => {
 // No frontend serving. Vercel handles frontend.
 // Backend only serves API.
 
-app.listen(ENV.PORT, () => {
-  console.log(`Server started on port ${ENV.PORT} in ${ENV.NODE_ENV} mode`)
-})
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(ENV.PORT, () => console.log("Server is running on port:", ENV.PORT));
+  } catch (error) {
+    console.error("💥 Error starting the server", error);
+  }
+};
+
+startServer();
