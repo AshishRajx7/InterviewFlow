@@ -17,8 +17,6 @@ app.use(cors({
 }))
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
-app.use("/api/chat", chatRoutes);
-app.use("/api/sessions", sessionRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({ msg: "api is running" })
