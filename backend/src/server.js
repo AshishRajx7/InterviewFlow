@@ -12,6 +12,7 @@ import { connectDB } from './lib/db.js'
 import chatRoutes from "./routes/chatRoutes.js";
 import sessionRoute from "./routes/sessionRoute.js";
 
+console.log("SERVER CLIENT_URL:", ENV.CLIENT_URL);
 
 
 const app = express()

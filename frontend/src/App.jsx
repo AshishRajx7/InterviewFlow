@@ -1,35 +1,60 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import { SignedIn, SignedOut, SignIn, SignInButton, SignOutButton, UserButton } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
+import { Navigate, Route, Routes } from "react-router";
+
+import HomePage from "./pages/HomePage";
+
+import { Toaster } from "react-hot-toast";
+import DashboardPage from "./pages/DashboardPage";
+import ProblemPage from "./pages/ProblemPage";
+import ProblemsPage from "./pages/ProblemsPage";
+import SessionPage from "./pages/SessionPage";
 
 function App() {
-  const [message, setMessage] = useState("Loading...")
+  const { isSignedIn, isLoaded } = useUser();
 
+  // useEffect must be ABOVE any return
   useEffect(() => {
-    const api = import.meta.env.VITE_API_URL
-    console.log("Local env API:", import.meta.env.VITE_API_URL)
+    const api = import.meta.env.VITE_API_URL;
+    console.log("Local env API:", api);
+  }, []);
 
-    fetch(`${api}/books`)
-      .then(res => res.json())
-      .then(data => setMessage(data.msg))
-      .catch(() => setMessage("Error connecting to backend"))
-  }, [])
+  // this must come AFTER hooks
+  if (!isLoaded) return null;
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>InterviewFlow</h1>
-      <h3>Backend says: {message}</h3>
-    <SignedOut>
-      <SignInButton mode="modal"/>
-    </SignedOut>
+    <>
+      <Routes>
 
-    <SignedIn>
-      <SignOutButton />
-    </SignedIn>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={!isSignedIn ? <HomePage /> : <Navigate to="/dashboard" />}
+        />
 
-    <UserButton/>
-    </div>
-  )
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={isSignedIn ? <DashboardPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/problems"
+          element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/problem/:id"
+          element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/session/:id"
+          element={isSignedIn ? <SessionPage /> : <Navigate to="/" />}
+        />
+
+      </Routes>
+
+      <Toaster toastOptions={{ duration: 3000 }} />
+    </>
+  );
 }
 
-export default App
+export default App;
