@@ -2,50 +2,60 @@ import { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { Navigate, Route, Routes } from "react-router";
 
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import ProblemPage from "./pages/ProblemPage.jsx";
+import ProblemsPage from "./pages/ProblemsPage.jsx";
+import SessionPage from "./pages/SessionPage.jsx";
 
 import { Toaster } from "react-hot-toast";
-import DashboardPage from "./pages/DashboardPage";
-import ProblemPage from "./pages/ProblemPage";
-import ProblemsPage from "./pages/ProblemsPage";
-import SessionPage from "./pages/SessionPage";
 
 function App() {
   const { isSignedIn, isLoaded } = useUser();
 
-  // useEffect must be ABOVE any return
   useEffect(() => {
-    const api = import.meta.env.VITE_API_URL;
-    console.log("Local env API:", api);
+    console.log("API URL:", import.meta.env.VITE_API_URL);
   }, []);
 
-  // this must come AFTER hooks
   if (!isLoaded) return null;
 
   return (
     <>
       <Routes>
 
-        {/* Public Routes */}
+        {/* Home is always public */}
         <Route path="/" element={<HomePage />} />
 
-
-        {/* Protected Routes */}
+        {/* Dashboard protected */}
         <Route
           path="/dashboard"
-          element={isSignedIn ? <DashboardPage /> : <Navigate to="/" />}
+          element={
+            isSignedIn ? <DashboardPage /> : <Navigate to="/" />
+          }
         />
+
+        {/* Problems protected */}
         <Route
           path="/problems"
-          element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+          element={
+            isSignedIn ? <ProblemsPage /> : <Navigate to="/" />
+          }
         />
+
+        {/* Single problem protected */}
         <Route
           path="/problem/:id"
-          element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />}
+          element={
+            isSignedIn ? <ProblemPage /> : <Navigate to="/" />
+          }
         />
+
+        {/* Session protected */}
         <Route
           path="/session/:id"
-          element={isSignedIn ? <SessionPage /> : <Navigate to="/" />}
+          element={
+            isSignedIn ? <SessionPage /> : <Navigate to="/" />
+          }
         />
 
       </Routes>
