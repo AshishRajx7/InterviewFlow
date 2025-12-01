@@ -27,10 +27,8 @@ function App() {
       <Routes>
 
         {/* Public Routes */}
-        <Route
-          path="/"
-          element={!isSignedIn ? <HomePage /> : <Navigate to="/dashboard" />}
-        />
+        <Route path="/" element={<HomePage />} />
+
 
         {/* Protected Routes */}
         <Route
