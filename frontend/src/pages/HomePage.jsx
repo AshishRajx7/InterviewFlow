@@ -207,32 +207,39 @@ export default function HomePage() {
                 })}
               </div>
 
-              {/* BUTTONS */}
-              <div className="flex flex-wrap gap-4">
+{/* BUTTONS */}
+<div className="flex flex-wrap gap-4">
 
-                {/* START CODING BUTTON — FIXED */}
-                {isSignedIn ? (
-                  <button
-                    onClick={() => navigate("/problems")}
-                    className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-lg hover:scale-105 transition-all"
-                  >
-                    Start Coding
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                ) : (
-                  <SignInButton mode="modal">
-                    <button className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-lg hover:scale-105 transition-all">
-                      Start Coding
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </SignInButton>
-                )}
+  {/* START CODING BUTTON */}
+  {isSignedIn ? (
+    <button
+      onClick={() => navigate("/problems")}
+      className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-lg hover:scale-105 transition-all flex items-center gap-2"
+    >
+      Start Coding
+      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+    </button>
+  ) : (
+    <SignInButton mode="modal">
+      <button className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-lg hover:scale-105 transition-all flex items-center gap-2">
+        Start Coding
+        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+      </button>
+    </SignInButton>
+  )}
 
-                <button className="px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all hover:scale-105 flex items-center gap-2">
-                  <Video className="w-5 h-5" />
-                  Watch Demo
-                </button>
-              </div>
+  {/* DASHBOARD BUTTON — Visible only when signed in */}
+  {isSignedIn && (
+    <button
+      onClick={() => navigate("/dashboard")}
+      className="px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all hover:scale-105 flex items-center gap-2"
+    >
+      <Users className="w-5 h-5" />
+      Dashboard
+    </button>
+  )}
+
+</div>
 
               {/* STATS */}
               <div className="grid grid-cols-3 gap-6 pt-8">
