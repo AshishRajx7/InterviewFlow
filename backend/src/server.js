@@ -19,11 +19,16 @@ const app = express()
 
 const __dirname = path.resolve();
 
-app.use(express.json());
-// CORS must come after app is created
-app.use(cors({
-  origin:ENV.CLIENT_URL, credentials:true
-}))
+app.use(
+  cors({
+    origin: [
+      ENV.CLIENT_URL,                        // frontend
+      "https://clerk.interview-flow-seven.vercel.app",
+      "https://api.clerk.com"
+    ],
+    credentials: true,
+  })
+);
 
 app.use(clerkMiddleware());
 
